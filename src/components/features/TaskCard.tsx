@@ -1,117 +1,53 @@
 "use client";
 
 import { ITask } from '@/model/tasksTypes'
-import checkTimeStatus from '@/services/taskTimeChecker'
-import { discord, facebook, instagram, telegram, tiktok, x } from '@/utils/statics'
-import Image from 'next/image'
 import React, { useState } from 'react'
-import { BiTask } from 'react-icons/bi'
-import { FaMoneyCheck } from 'react-icons/fa'
-import { WiTime3 } from 'react-icons/wi'
-import TaskModal from './TaskModal';
+import ActionInput from '../common/imputs/ActionInput';
 
-const TaskCard = ({task, status}: {task: ITask, status: "completed" | "expired" | "available"}) => {  
-  const [openModal, setOpenModal] = useState<boolean>(false)
+const TaskCard = ({task}: {task: ITask}) => {  
+  const [openTaskExtention, setOpenTaskExtention] = useState<boolean>(false);
+  const [taskInput, setTaskInput] = useState<string>('');
+
+  const openTask = () => {
+    setOpenTaskExtention(!openTaskExtention);
+    // TODO: Open task in new tab
+    // window.open(task.url, '_blank');
+  }
   
   return (
-    <div
-      className='w-full bg-secondary rounded-lg p-2 border border-gray-200 border-opacity-10 flex gap-5 cursor-pointer'
-      onClick={() => setOpenModal(true)}
-    >
-      {/* ============ TASK IMAGE ================ */}
-      <div>
-        {task.type == "Instagram" && (
-          <Image
-            src={instagram}
-            alt="instagram"
-            width={30}
-            height={30}
+    <div>
+      <div
+        className='w-full bg-transparent rounded-lg py-3 px-6 border border-primary border-opacity-10 grid grid-cols-3 gap-5 cursor-pointer'
+        onClick={() => setOpenTaskExtention(!openTaskExtention)}
+      >
+        <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+        <p className='text-texter text-[19.36px] font-semibold col-span-1 pl-10 md:pl-20 my-auto'>{task.points}</p>
+        <div
+          className='px-2 py-1 bg-white text-black font-semibold rounded-full h-fit w-fit my-auto md:text-[16px] text-xm flex cursor-pointer'
+          onClick={openTask}
+        >
+          {/* <div className="relative">
+            <div className='my-auto rounded-full p-2 bg-black bg-opacity-50 h-fit w-fit absolute top-1/2'></div>
+            <div className='my-auto rounded-full p-1 bg-black w-fit h-fit absolute top-1/2'></div>
+          </div> */}
+          <p className='flex gap-1'>Complete <span className='hidden md:flex'> Task</span></p>
+        </div>
+      </div>
+      {openTaskExtention && (
+        <div
+          className='w-full bg-transparent rounded-lg py-3 px-6 border border-primary border-opacity-10 grid grid-cols-3 gap-5 cursor-pointer'
+        >
+          {task.type !== "Facebook" && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Username</p>}
+          {task.type == "Facebook" && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Name:</p>}
+          <ActionInput
+            value={taskInput}
+            setValue={setTaskInput}
+            placeholder={task.type !== "Facebook" ? '@username' : 'Enter your name'}
+            type='text'
+            // className='text-black text-[19.36px] font-semibold col-span-2'
           />
-        )}
-        {task.type == "X" && (
-          <div className='bg-gray-300 p-2 rounded-full w-fit h-fit'>
-            <Image
-              src={x}
-              alt="x"
-              width={20}
-              height={20}
-            />
-          </div>
-        )}
-        {
-          task.type == "Twitter" && (
-            <Image
-              src={x}
-              alt="twitter"
-              width={30}
-              height={30}
-            />
-          )
-        }
-        {
-          task.type == "Facebook" && (
-            <Image
-              src={facebook}
-              alt="facebook"
-              width={30}
-              height={30}
-            />
-          )
-        }
-        {
-          task.type == "Discord" && (
-            <Image
-              src={discord}
-              alt="discord"
-              width={30}
-              height={30}
-            />
-          )
-        }
-        {
-          task.type == "Telegram" && (
-            <Image
-              src={telegram}
-              alt="telegram"
-              width={30}
-              height={30}
-            />
-          )
-        }
-        {
-          task.type == "TikTok" && (
-            <Image
-              src={tiktok}
-              alt="tiktok"
-              width={30}
-              height={30}
-            />
-          )
-        }
-      </div>
-      <div className='flex flex-col gap-4'>
-        <div className='flex flex-col gap-2'>
-          <p className='font-semibold text-lg'>{task.description}</p>
-          <div className="flex gap-5">
-            <div className="flex gap-3">
-              <BiTask size={20} className='text-textGreen' />
-              <p className='text-sm font-bold text-gray-400'>{task.action}</p>
-            </div>
-            <div className="flex gap-3">
-              <FaMoneyCheck size={20} className='text-textGreen' />
-              <p className='text-sm font-bold text-gray-400'>{task.points} points</p>
-            </div>
-          </div>
+          <button className='w-fit py-1 px-4 bg-white text-black font-semibold rounded-full h-fit my-auto  text-[16px]'>Verify</button>
         </div>
-        <div>
-          <div className="flex gap-3">
-            <WiTime3 size={20} className='text-textGreen' />
-            <p className='text-sm font-bold text-gray-400'>{checkTimeStatus(task.expires)}</p>
-          </div>
-        </div>
-      </div>
-      {openModal && (
-        <TaskModal task={task} status={status} onClose={() => setOpenModal(false)} />
       )}
     </div>
   )

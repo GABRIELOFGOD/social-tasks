@@ -11,7 +11,8 @@ export default {
       colors: {
         secondary: "var(--secondary)",
         primary: "var(--primary)",
-        textGreen: "var(--text-green)",
+        tertiary: "var(--tertiary)",
+        texter: "var(--texter)",
       },
     },
   },

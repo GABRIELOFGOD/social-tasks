@@ -9,11 +9,12 @@
 
 export interface ITask {
   id: number;
-  type: string;
+  type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord";
   title: string;
   description?: string;
   points: number;
   action: string;
   url?: string;
   expires: string;
+  status?: "pending" | "expired" | "available" | "claimed";
 }
