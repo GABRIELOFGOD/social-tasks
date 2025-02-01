@@ -26,7 +26,7 @@ const TaskHeader = () => {
           <p className='font-bold md:text-[25.2px] text-secondary my-auto'>Your Total</p>
           <p className='font-bold md:text-[25.2px] text-secondary my-auto'>Referral UCPoints</p>
         </div> */}
-        <div className='flex divide-x-2 divide-white gap-2 my-auto'>
+        <div className='flex divide-x-2 divide-white gap-2 my-auto text-tertiary'>
           <div className='my-auto px-3'>
             <p className='md:text-[18.9px] font-semibold'>UCPoints</p>
             <p className='md:text-[18.9px] font-semibold text-center'>0</p>
