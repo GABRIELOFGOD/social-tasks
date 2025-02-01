@@ -22,16 +22,12 @@ const TaskCard = ({task}: {task: ITask}) => {
       >
         <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
         <p className='text-texter text-[19.36px] font-semibold col-span-1 pl-10 md:pl-20 my-auto'>{task.points}</p>
-        <div
-          className='px-2 py-1 bg-white text-black font-semibold rounded-full h-fit w-fit my-auto md:text-[16px] text-xm flex cursor-pointer'
+        <button
+          className='px-2 py-1 bg-white text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex cursor-pointer justify-self-end capitalize'
           onClick={openTask}
         >
-          {/* <div className="relative">
-            <div className='my-auto rounded-full p-2 bg-black bg-opacity-50 h-fit w-fit absolute top-1/2'></div>
-            <div className='my-auto rounded-full p-1 bg-black w-fit h-fit absolute top-1/2'></div>
-          </div> */}
-          <p className='flex gap-1'>Complete <span className='hidden md:flex'> Task</span></p>
-        </div>
+          {task.action}
+        </button>
       </div>
       {openTaskExtention && (
         <div

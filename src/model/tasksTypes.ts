@@ -9,7 +9,7 @@
 
 export interface ITask {
   id: number;
-  type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord";
+  type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord" | "General" | "Medium" | "Referral";
   title: string;
   description?: string;
   points: number;
@@ -17,4 +17,5 @@ export interface ITask {
   url?: string;
   expires: string;
   status?: "pending" | "expired" | "available" | "claimed";
+  mandatory?: boolean;
 }
