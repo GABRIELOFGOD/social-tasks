@@ -28,7 +28,7 @@
 "use client";
 
 import React, { type ReactNode } from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import { wagmiAdapter, projectId } from "@/utils/wagmi";
 import { createAppKit } from "@reown/appkit";
 import { bscTestnet } from "@reown/appkit/networks";
@@ -41,25 +41,25 @@ if (!projectId) {
   throw new Error("Project ID is not set");
 }
 
-const metadata = {
-  name: "UCCCHAIN",
-  description: "UCCCHAIN",
-  url: "https://uccchain.com",
-  icon: "https://uccchain.com/favicon.ico",
-}
+// const metadata = {
+//   name: "UCCCHAIN",
+//   description: "UCCCHAIN",
+//   url: "https://uccchain.com",
+//   icon: "https://uccchain.com/favicon.ico",
+// }
 
-const modal = createAppKit({
-  adapters: [wagmiAdapter],
-  projectId,
-  networks: [bscTestnet],
-  features: {
-    analytics: false,
-    email: true,
-    socials: ["google", "x", "discord", "github"],
-    emailShowWallets: true
-  },
-  themeMode: "light",
-});
+// const modal = createAppKit({
+//   adapters: [wagmiAdapter],
+//   projectId,
+//   networks: [bscTestnet],
+//   features: {
+//     analytics: false,
+//     email: true,
+//     socials: ["google", "x", "discord", "github"],
+//     emailShowWallets: true
+//   },
+//   themeMode: "light",
+// });
 
 const Providers = (prop: { 
   children: ReactNode;
