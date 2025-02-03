@@ -4,8 +4,8 @@ import "./globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 
-import Providers from "@/context/WagmiProviderContext";
-import { headers } from "next/headers";
+// import Providers from "@/context/WagmiProviderContext";
+// import { headers } from "next/headers";
 // import { cookieToInitialState } from "wagmi";
 
 const geistSans = Geist({
@@ -28,19 +28,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const cookies = headersList.get("cookie");
+  // const headersList = await headers();
+  // const cookies = headersList.get("cookie");
   
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#060606]`}
       >
-        <Providers cookies={cookies}>
+        {/* <Providers cookies={cookies}> */}
           <Header />
           <div>{children}</div>
           <Footer />
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
