@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
+import SortedFooter from "@/components/common/SortedFooter";
+import { GlobalProvider } from "@/context/GlobalContext";
 
 // import Providers from "@/context/WagmiProviderContext";
 // import { headers } from "next/headers";
@@ -37,9 +39,11 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#060606]`}
       >
         {/* <Providers cookies={cookies}> */}
+        <GlobalProvider>
           <Header />
           <div>{children}</div>
-          <Footer />
+          <SortedFooter />
+        </GlobalProvider>
         {/* </Providers> */}
       </body>
     </html>

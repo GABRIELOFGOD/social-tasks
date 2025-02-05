@@ -1,21 +1,32 @@
-// id: 1,
-//     type: "Instagram",
-//     title: "Follow",
-//     description: "Follow @socialtasks on Instagram",
-//     points: 5,
-//     action: "Follow",
-//     url: "https://www.instagram.com/socialtasks",
-//     expires: "2023-12-31T23:59:59Z"
+import { IUser } from "./userTypes";
+
+export interface IParticipant {
+  id: number;
+  username: string;
+  completed: "pending" | "completed";
+  user: IUser;
+}
 
 export interface ITask {
   id: number;
   type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord" | "General" | "Medium" | "Referral";
-  title: string;
   description?: string;
   points: number;
   action: string;
   url?: string;
-  expires: string;
   status?: "pending" | "expired" | "available" | "claimed";
   mandatory?: boolean;
+  username?: string;
+  participants: IParticipant[];
+}
+
+export enum TaskType {
+  INSTAGRAM = "instagram",
+  FACEBOOK = "facebook",
+  X = "x",
+  DISCORD = "discord",
+  YOUTUBE = "youtube",
+  TIKTOK = "tiktok",
+  TELEGRAM = "telegram",
+  MEDIUM = "medium",
 }

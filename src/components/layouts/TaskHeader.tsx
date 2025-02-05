@@ -3,11 +3,11 @@
 import { sub } from '@/utils/constants'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import ActionInput from '../common/imputs/ActionInput'
+import ActionInput from '../common/inputs/ActionInput'
 import BigButton from '../common/buttons/BigButton';
 
 const TaskHeader = () => {
-  const [referralInput, setReferralInput] = useState<string>('')
+  const [referralInput, setReferralInput] = useState<string>('');
   
   return (
     <div className='h-[121.8px] bg-gradient-to-br to-[#D69D2308] from-[#BA963A4D] border w-full border-[#524141] rounded-lg flex'>
