@@ -6,9 +6,12 @@ import { FaUsers } from 'react-icons/fa6'
 import { useGetUsers } from '@/hooks/useGetUsers'
 import { useFetchTasks } from '@/hooks/useFetchTask';
 import { BiTask } from 'react-icons/bi';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const DashboardContent = () => {
-  const { users } = useGetUsers();
+  const { user } = useGlobalContext();
+  
+  const { users } = useGetUsers(user?.wallet || "");
   const { data } = useFetchTasks();
   
   return (
