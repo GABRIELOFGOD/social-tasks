@@ -1,6 +1,5 @@
 "use client";
 
-import { useGlobalContext } from "@/context/GlobalContext";
 import { BASEURL } from "@/utils/constants";
 import { useState } from "react";
 
@@ -41,7 +40,7 @@ export const useParticipate = () => {
       if (response.status !== 'success') throw new Error(response.message);
       setState({ loading: false, error: null, message: 'Task added successfully' });
       location.reload();
-    } catch (error: any) {
+    } catch (error) {
       setState({ loading: false, error: (error as Error).message, message: null });
     }
   };

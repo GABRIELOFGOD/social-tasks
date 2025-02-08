@@ -17,7 +17,7 @@ const ApproveTaskModal = ({
   const [activeTab, setActiveTab] = useState<'pending' | 'approved'>('pending');
   const { user } = useGlobalContext();
 
-  const { settleTask, state } = useSettleTask();
+  const { settleTask } = useSettleTask();
 
   const handleSettleTask = (completed: "completed" | "decline", participantId: number) => {
     settleTask(task.id, participantId, completed, user?.wallet || "");

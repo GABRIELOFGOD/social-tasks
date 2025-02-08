@@ -3,8 +3,14 @@
 import { BASEURL } from "@/utils/constants";
 import { useState } from "react";
 
+interface ISettleTaskState {
+  message: string | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export const useSettleTask = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<ISettleTaskState>({
     message: null,
     loading: false,
     error: null,
@@ -25,9 +31,8 @@ export const useSettleTask = () => {
       console.log('response', response);
       setState({ error: null, message: response.message, loading: false });
       location.reload();
-    } catch (error: any) {
-      console.log('error', error);
-      setState({ ...state, loading: false, error });
+    } catch (error) {
+      setState({ loading: false, error: (error as Error).message, message: null });
     }
   };
 

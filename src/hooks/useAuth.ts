@@ -40,8 +40,8 @@ export const useAuth = () => {
         error: null,
       });
       return response.user as IUser;
-    } catch (error: any) {
-      setState({ ...state, loading: false, error: error.message });
+    } catch (error) {
+      setState({ loading: false, error: (error as Error).message, user: null });
     }
   }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { BASEURL } from "@/utils/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IUseAddTasks {
   message: string | null;
@@ -57,7 +57,7 @@ export const useAddTask = () => {
       if (response.status !== 'success') throw new Error(response.message);
       setState({ loading: false, error: null, message: 'Task added successfully' });
       location.reload();
-    } catch (error: any) {
+    } catch (error) {
       setState({ loading: false, error: (error as Error).message, message: null });
     }
   };

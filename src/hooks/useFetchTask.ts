@@ -32,7 +32,7 @@ export const useFetchTasks = () => {
           error: null,
           data: response.tasks
         });
-      } catch (error: any) {
+      } catch (error) {
         setState({ data: null, loading: false, error: (error as Error).message });
       }
     }

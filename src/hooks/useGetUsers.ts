@@ -30,8 +30,8 @@ export const useGetUsers = (wallet: string) => {
         });
         const response = await request.json();
         setState({ users: response.users, error: null, loading: false });
-      } catch (error: any) {
-        setState({ ...state, loading: false, error });
+      } catch (error) {
+        setState({ loading: false, error: (error as Error).message, users: [] });
       }
     };
     getUsers();

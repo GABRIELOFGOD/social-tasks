@@ -2,9 +2,11 @@ import { ITask } from '@/model/tasksTypes'
 import React, { useState } from 'react'
 import ApproveTaskModal from './ApproveTaskModal';
 import { useEndTask } from '@/hooks/useEndTask';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const AdminTaskCard = ({task}: {task: ITask}) => {
   const [openApproveModal, setOpenApproveModal] = useState<boolean>(false);
+  const { user } = useGlobalContext();
 
   const { endTask, loading } = useEndTask();
   
@@ -20,7 +22,7 @@ const AdminTaskCard = ({task}: {task: ITask}) => {
         <button
           className={`w-fit py-1 px-4 bg-white text-black font-semibold rounded-full h-fit my-auto  text-[16px] cursor-pointer ${loading ? "cursor-not-allowed" : ""}`}
           disabled={loading}
-          onClick={() => endTask(task.id)}
+          onClick={() => endTask(task.id,  user?.wallet || "")}
         >
           {loading ? "Loading.." : "End task"}
         </button>

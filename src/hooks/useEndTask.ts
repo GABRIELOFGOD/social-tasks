@@ -14,13 +14,20 @@ export const useEndTask = () => {
     error: null
   });
 
-  const endTask = async (taskId: number) => {
+  const endTask = async (taskId: number, wallet: string) => {
     setState({
       error: null,
       loading: true
     });
     try {
-      const request = await fetch(`${BASEURL}/end`);
+      const request = await fetch(`${BASEURL}/end`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "wallet": wallet
+        },
+        body: JSON.stringify({ taskId })
+      });
       const response = await request.json();
       if (!request.ok) {
         setState({
@@ -40,11 +47,8 @@ export const useEndTask = () => {
         loading: false,
         error: null
       });
-    } catch (error: any) {
-      setState({
-        loading: false,
-        error: error.message
-      });
+    } catch (error) {
+      setState({ loading: false, error: (error as Error).message });
     }
   }
 

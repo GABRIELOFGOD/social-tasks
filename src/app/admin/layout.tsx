@@ -1,4 +1,3 @@
-import DashboardContent from '@/components/features/admin/DashboardContent'
 import Side from '@/components/features/admin/Side'
 import React, { ReactNode } from 'react'
 
