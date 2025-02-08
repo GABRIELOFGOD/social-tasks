@@ -55,3 +55,33 @@
 // });
 
 // export const config = wagmiAdapter.wagmiConfig;
+
+import { http, createConfig, createStorage, cookieStorage } from 'wagmi'
+import { bscTestnet } from 'wagmi/chains'
+import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
+
+export const getConfig = () => {
+  return createConfig({
+    chains: [bscTestnet],
+    transports: {
+      [bscTestnet.id]: http(),
+    },
+    connectors: [
+      injected(),
+      coinbaseWallet(),
+      walletConnect({
+        projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID ?? "",
+      }),
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
+    ssr: true,
+  });
+}
+
+declare module "wagmi" {
+  interface Register {
+    config: ReturnType<typeof getConfig>;
+  }
+}

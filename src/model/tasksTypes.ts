@@ -7,6 +7,13 @@ export interface IParticipant {
   user: IUser;
 }
 
+export enum TaskStatus {
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  COMPLETED = "completed",
+  AVAILABLE = "available",
+}
+
 export interface ITask {
   id: number;
   type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord" | "General" | "Medium" | "Referral";
@@ -14,7 +21,7 @@ export interface ITask {
   points: number;
   action: string;
   url?: string;
-  status?: "pending" | "expired" | "available" | "claimed";
+  status?: TaskStatus;
   mandatory?: boolean;
   username?: string;
   participants: IParticipant[];

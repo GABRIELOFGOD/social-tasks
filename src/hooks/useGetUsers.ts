@@ -10,7 +10,7 @@ interface IUseGetUsers {
   error: string | null;
 }
 
-export const useGetUsers = () => {
+export const useGetUsers = (wallet: string) => {
   const [state, setState] = useState<IUseGetUsers>({
     users: [],
     loading: false,
@@ -25,10 +25,11 @@ export const useGetUsers = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            "wallet": wallet,
           },
         });
         const response = await request.json();
-        setState({ users: response.data, error: null, loading: false });
+        setState({ users: response.users, error: null, loading: false });
       } catch (error: any) {
         setState({ ...state, loading: false, error });
       }

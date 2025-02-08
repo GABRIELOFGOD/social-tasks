@@ -29,12 +29,14 @@ export const useAddTask = () => {
 
   // useEffect(() => {
   const addTask = async (prop: IAddTask) => {
+    
     try {
       setState({ loading: true, error: null, message: null });
       const request = await fetch(`${BASEURL}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          "wallet": prop.wallet,
         },
         body: JSON.stringify({
           type: prop.taskType,

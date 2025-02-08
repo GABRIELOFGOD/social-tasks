@@ -10,7 +10,7 @@ import { useGlobalContext } from '@/context/GlobalContext';
 const TaskCard = ({task}: {task: ITask}) => {  
   const [openTaskExtention, setOpenTaskExtention] = useState<boolean>(false);
   const [taskInput, setTaskInput] = useState<string>('');
-  const { wallet } = useGlobalContext();
+  const { user } = useGlobalContext();
   const { participate, state } = useParticipate();
 
   const openTask = () => {
@@ -28,12 +28,12 @@ const TaskCard = ({task}: {task: ITask}) => {
       state.error = 'Please enter your username';
       return;
     };
-    await participate(task.id, taskInput);
+    await participate(task.id, taskInput, user?.wallet || '');
   }
 
-  const participated = task.participants.length && wallet ? task.participants.some(participant => participant.user && participant.user.wallet && participant.user.wallet === wallet) : false;
+  const participated = task.participants.length && user?.wallet ? task.participants.some(participant => participant.user && participant.user.wallet && participant.user.wallet === user.wallet) : false;
 
-  // console.log("TaskCard", task);
+  console.log("TaskCard", task.participants);
   
   return (
     <div className="border border-primary border-opacity-10 w-full bg-transparent rounded-lg py-3 px-6 flex flex-col gap-5">
@@ -59,7 +59,7 @@ const TaskCard = ({task}: {task: ITask}) => {
           className={`px-2 py-1 text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex justify-self-end capitalize ${participated ? 'cursor-not-allowed bg-primary' : 'cursor-pointer bg-white'}`}
           onClick={openTask}
         >
-          {participated ? task.participants.some(participant => participant.completed == "pending") ? "Pending" : "Completed" : task.action}
+          {participated ? (task.participants.some(participant => participant.completed == "pending") ? "Pending" : "Completed") : task.action}
         </button>
         
       </div>

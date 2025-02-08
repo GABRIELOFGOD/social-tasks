@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 
 const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
   const [taskType, setTaskType] = useState<TaskType>(TaskType.TELEGRAM);
-  const [taskAction, setTaskAction] = useState<string | null>(null);
+  const [taskAction, setTaskAction] = useState<string>("");
   const [taskDescription, setTaskDescription] = useState<string>('');
   const [taskPoints, setTaskPoints] = useState<number>(0);
   const [taskUsername, setTaskUsername] = useState<string>('');
@@ -20,7 +20,7 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
 
   const selectedTaskType = taskTypes.find((type) => type.name === taskType);
 
-  const { wallet } = useGlobalContext();
+  const { user } = useGlobalContext();
 
   const { addTask, state } = useAddTask();
 
@@ -34,15 +34,20 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
     
     await addTask({
       taskType,
-      taskAction: taskAction as string,
+      taskAction: taskAction,
       taskDescription,
       taskPoints,
       taskUsername,
       taskUrl,
       mandatoryTask,
-      wallet: "wallet",
+      wallet: user?.wallet || '',
     });
   };
+
+  const setTaskValue = (value: TaskType) => {
+    setTaskType(value);
+    setTaskAction("");
+  }
 
   return (
     <div
@@ -63,7 +68,7 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
               <p className='font-semibold text-lg'>Task Type:</p>
               <SelectInput
                 options={taskTypes.map((type) => ({ value: type.name, label: type.name }))}
-                onChange={(value) => setTaskType(value as TaskType)}
+                onChange={(value) => setTaskValue(value as TaskType)}
                 className='h-12 bg-black'
               />
             </div>

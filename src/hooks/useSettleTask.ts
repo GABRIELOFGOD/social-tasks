@@ -10,13 +10,14 @@ export const useSettleTask = () => {
     error: null,
   });
 
-  const settleTask = async (taskId: number, participantId: number, status: "completed" | "decline") => {
+  const settleTask = async (taskId: number, participantId: number, status: "completed" | "decline", wallet: string) => {
     setState({ ...state, loading: true });
     try {
       const request = await fetch(`${BASEURL}/settle`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          "wallet": wallet,
         },
         body: JSON.stringify({ taskId, participantId, status }),
       });

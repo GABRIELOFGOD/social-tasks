@@ -5,10 +5,10 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import SortedFooter from "@/components/common/SortedFooter";
 import { GlobalProvider } from "@/context/GlobalContext";
-
-// import Providers from "@/context/WagmiProviderContext";
-// import { headers } from "next/headers";
-// import { cookieToInitialState } from "wagmi";
+import { Providers } from "@/context/Provider";
+import { getConfig } from "@/utils/wagmi";
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,21 +30,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const headersList = await headers();
-  // const cookies = headersList.get("cookie");
+  const headerList = await headers();
+  const cookieheader = headerList.get("cookie");
+  const initialState = cookieToInitialState(getConfig(), cookieheader);
   
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#060606]`}
       >
-        {/* <Providers cookies={cookies}> */}
-        <GlobalProvider>
-          <Header />
-          <div>{children}</div>
-          <SortedFooter />
-        </GlobalProvider>
-        {/* </Providers> */}
+        <Providers initialState={initialState}>
+          <GlobalProvider>
+            <Header />
+            <div>{children}</div>
+            <SortedFooter />
+          </GlobalProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -3,7 +3,8 @@ import React from 'react'
 
 const DashboardCard = (prop: IDashboardCard) => {
   return (
-    <div className='w-full h-fit md:max-w-[250px] rounded-sm p-3 bg-opacity-30 bg-secondary flex gap-3'>
+    <div className='w-full h-fit rounded-sm p-3 bg-opacity-30 bg-secondary flex gap-3'>
+    {/* <div className='w-full h-fit md:max-w-[250px] rounded-sm p-3 bg-opacity-30 bg-secondary flex gap-3'> */}
       <div className='bg-primary p-2 rounded-full h-fit w-fit'>
         {prop.icon}
       </div>

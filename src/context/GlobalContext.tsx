@@ -1,10 +1,14 @@
 "use client";
 
+import ConnectWalletModal from "@/components/common/modal/ConnectWalletModal";
+import { IUser } from "@/model/userTypes";
 import { createContext, useContext, useState } from "react";
 
 interface IGlobalContext {
-  wallet: string;
-  setWallet: (wallet: string) => void;
+  user: IUser | null;
+  setUser: (user: IUser) => void;
+  openConnectModal: boolean;
+  setOpenConnectModal: (open: boolean) => void;
 }
 
 const GlobalContext = createContext<IGlobalContext | null>(null);
@@ -12,11 +16,13 @@ const GlobalContext = createContext<IGlobalContext | null>(null);
 export const GlobalProvider = ({ children }: {
   children: React.ReactNode;
 }) => {
-  const [wallet, setWallet] = useState<string>('wallet');
+  const [user, setUser] = useState<IUser | null>(null);
+  const [openConnectModal, setOpenConnectModal] = useState<boolean>(false);
 
   return (
-    <GlobalContext.Provider value={{ wallet, setWallet }}>
+    <GlobalContext.Provider value={{ user, setUser, openConnectModal, setOpenConnectModal }}>
       {children}
+      {openConnectModal && <ConnectWalletModal closeModal={() => setOpenConnectModal(false)} />}
     </GlobalContext.Provider>
   );
 };

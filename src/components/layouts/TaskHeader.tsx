@@ -5,9 +5,11 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import ActionInput from '../common/inputs/ActionInput'
 import BigButton from '../common/buttons/BigButton';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const TaskHeader = () => {
   const [referralInput, setReferralInput] = useState<string>('');
+  const { user } = useGlobalContext();
   
   return (
     <div className='h-[121.8px] bg-gradient-to-br to-[#D69D2308] from-[#BA963A4D] border w-full border-[#524141] rounded-lg flex'>
@@ -29,7 +31,7 @@ const TaskHeader = () => {
         <div className='flex divide-x-2 divide-white gap-2 my-auto text-tertiary'>
           <div className='my-auto px-3'>
             <p className='md:text-[18.9px] font-semibold'>UCPoints</p>
-            <p className='md:text-[18.9px] font-semibold text-center'>0</p>
+            <p className='md:text-[18.9px] font-semibold text-center'>{Number(user?.points).toFixed(2) ?? 0}</p>
           </div>
           <div className='my-auto px-3'>
             <p className='md:text-[18.9px] font-semibold'>Referred Accounts</p>

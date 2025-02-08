@@ -17,7 +17,7 @@ export const useParticipate = () => {
     error: null,
   });
 
-  const participate = async (taskId: number, username: string) => {
+  const participate = async (taskId: number, username: string, wallet: string) => {
     
     try {
       setState({ loading: true, error: null, message: null });
@@ -29,7 +29,7 @@ export const useParticipate = () => {
         body: JSON.stringify({
           taskId,
           username,
-          wallet: "wallet",
+          wallet: wallet,
         }),
       });
 
