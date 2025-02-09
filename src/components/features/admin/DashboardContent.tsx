@@ -15,10 +15,10 @@ const DashboardContent = () => {
   const { data } = useFetchTasks();
   
   return (
-    <div className='w-full h-full p-3 md:p-5'>
+    <div className='w-full h-full p-3 md:p-5 overflow-y-auto'>
       <div className="flex flex-wrap justify-between gap-5">
         <DashboardCard
-          value={users.length}
+          value={users?.length ?? 0}
           description='Total Registered users on UCC'
           icon={<FaUsers />}
           title='Users'

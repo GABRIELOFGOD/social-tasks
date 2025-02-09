@@ -1,11 +1,16 @@
 "use client";
 
-import { ITask } from '@/model/tasksTypes'
+import { ITask, TaskType } from '@/model/tasksTypes'
 import React, { useState } from 'react'
 import ActionInput from '../common/inputs/ActionInput';
 import { BiCopy } from 'react-icons/bi';
 import { useParticipate } from '@/hooks/useParticipate';
 import { useGlobalContext } from '@/context/GlobalContext';
+import { FaTelegram, FaFacebookSquare, FaYoutube } from 'react-icons/fa';
+import { FaMedium, FaSquareXTwitter } from 'react-icons/fa6';
+import { BsDiscord } from 'react-icons/bs';
+import { LuInstagram } from 'react-icons/lu';
+import { AiFillTikTok } from 'react-icons/ai';
 
 const TaskCard = ({task}: {task: ITask}) => {  
   const [openTaskExtention, setOpenTaskExtention] = useState<boolean>(false);
@@ -19,10 +24,6 @@ const TaskCard = ({task}: {task: ITask}) => {
     // window.open(task.url, '_blank');
   }
 
-  if (state.error) {
-    console.log('state.error', state.error);
-  }
-
   const handleVerify = async () => {
     if (!taskInput) {
       state.error = 'Please enter your username';
@@ -31,9 +32,7 @@ const TaskCard = ({task}: {task: ITask}) => {
     await participate(task.id, taskInput, user?.wallet || '');
   }
 
-  const participated = task.participants.length && user?.wallet ? task.participants.some(participant => participant.user && participant.user.wallet && participant.user.wallet === user.wallet) : false;
-
-  console.log("TaskCard", task.participants);
+  const participated = task.participants.some(participant => participant.id === user?.id);
   
   return (
     <div className="border border-primary border-opacity-10 w-full bg-transparent rounded-lg py-3 px-6 flex flex-col gap-5">
@@ -42,7 +41,38 @@ const TaskCard = ({task}: {task: ITask}) => {
         onClick={() => setOpenTaskExtention(!openTaskExtention)}
       >
         <div className=''>
-          <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          {task.type === TaskType.TELEGRAM && <div className="flex gap-3 my-auto">
+            <div><FaTelegram size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.YOUTUBE && <div className="flex gap-3 my-auto">
+            <div><FaYoutube size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.FACEBOOK && <div className="flex gap-3 my-auto">
+            <div><FaFacebookSquare size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.X && <div className="flex gap-3 my-auto">
+            <div><FaSquareXTwitter size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.DISCORD && <div className="flex gap-3 my-auto">
+            <div><BsDiscord size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.MEDIUM && <div className="flex gap-3 my-auto">
+            <div><FaMedium size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.INSTAGRAM && <div className="flex gap-3 my-auto">
+            <div><LuInstagram size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
+          {task.type === TaskType.TIKTOK && <div className="flex gap-3 my-auto">
+            <div><AiFillTikTok size={25} className='my-auto' color='#C18B18' /></div>
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
           {openTaskExtention && !participated && <div className='flex gap-2 pt-3'>
             <span className='font-semibold my-auto'>{task.username}</span>
             <button
@@ -59,7 +89,7 @@ const TaskCard = ({task}: {task: ITask}) => {
           className={`px-2 py-1 text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex justify-self-end capitalize ${participated ? 'cursor-not-allowed bg-primary' : 'cursor-pointer bg-white'}`}
           onClick={openTask}
         >
-          {participated ? (task.participants.some(participant => participant.completed == "pending") ? "Pending" : "Completed") : task.action}
+          {participated ? (task.participants.find(participant => participant.user && participant.user.wallet === user?.wallet)?.completed == "pending" ? "Pending" : "Completed") : task.action}
         </button>
         
       </div>
@@ -68,12 +98,12 @@ const TaskCard = ({task}: {task: ITask}) => {
           <div
             className='w-full flex justify-between gap-3 md:gap-5'
           >
-            {task.type !== "Facebook" && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Username</p>}
-            {task.type == "Facebook" && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Name:</p>}
+            {task.type !== TaskType.FACEBOOK && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Username</p>}
+            {task.type === TaskType.FACEBOOK && <p className='text-white text-[19.36px] font-semibold col-span-1 my-auto'>Name:</p>}
             <ActionInput
               value={taskInput}
               setValue={setTaskInput}
-              placeholder={task.type !== "Facebook" ? '@username' : 'Enter your name'}
+              placeholder={task.type !== TaskType.FACEBOOK ? '@username' : 'Enter your name'}
               type='text'
               className={`${state.error ? 'border-red-500' : ''}`}
               // className='text-black text-[19.36px] font-semibold col-span-2'
@@ -83,7 +113,7 @@ const TaskCard = ({task}: {task: ITask}) => {
               onClick={handleVerify}
               disabled={state.loading}
             >
-              {state.loading ? 'Loading...' : 'Verify'}
+              {state.loading ? 'Verying...' : 'Verify'}
             </button>
           </div>
         </div>

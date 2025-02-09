@@ -16,7 +16,8 @@ export enum TaskStatus {
 
 export interface ITask {
   id: number;
-  type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord" | "General" | "Medium" | "Referral";
+  // type: "Instagram" | "Telegram" | "TikTok" | "X" | "Facebook" | "Discord" | "General" | "Medium" | "Referral" | "Youtube";
+  type: TaskType;
   description?: string;
   points: number;
   action: string;
