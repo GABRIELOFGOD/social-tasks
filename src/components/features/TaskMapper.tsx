@@ -1,7 +1,7 @@
 "use client";
 
 import { ITask } from '@/model/tasksTypes'
-import React, { useEffect } from 'react'
+import React from 'react'
 import TaskCard from './TaskCard'
 import { useFetchTasks } from '@/hooks/useFetchTask'
 import { useAccount, useDisconnect } from 'wagmi';
@@ -32,11 +32,11 @@ const TaskMapper = () => {
   //   location.reload();
   // }
 
-  const startTelegramBot = () => {
-    window.open('https://t.me/ucc_checkbot', '_blank');
-  }
+  // const startTelegramBot = () => {
+  //   window.open('https://t.me/ucc_checkbot', '_blank');
+  // }
 
-  console.log("Logged in", hasLoggedIn);
+  // console.log("Logged in", hasLoggedIn);
   
   return (
     <div>
