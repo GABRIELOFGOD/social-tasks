@@ -9,6 +9,8 @@ interface IGlobalContext {
   setUser: (user: IUser) => void;
   openConnectModal: boolean;
   setOpenConnectModal: (open: boolean) => void;
+  globalLoading: boolean;
+  setGlobalLoading: (loading: boolean) => void;
 }
 
 const GlobalContext = createContext<IGlobalContext | null>(null);
@@ -18,10 +20,15 @@ export const GlobalProvider = ({ children }: {
 }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [openConnectModal, setOpenConnectModal] = useState<boolean>(false);
+  const [globalLoading, setGlobalLoading] = useState<boolean>(false);
 
   return (
-    <GlobalContext.Provider value={{ user, setUser, openConnectModal, setOpenConnectModal }}>
-      {children}
+    <GlobalContext.Provider value={{
+      user, setUser,
+      openConnectModal, setOpenConnectModal,
+      globalLoading, setGlobalLoading
+    }}>
+      {globalLoading ? <div className="h-full fixed top-0 left-0 w-full bg-black text-white">Loading user data</div> : children}
       {openConnectModal && <ConnectWalletModal closeModal={() => setOpenConnectModal(false)} />}
     </GlobalContext.Provider>
   );

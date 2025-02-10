@@ -20,7 +20,7 @@ const Header = () => {
   }, [user]);
   
   return (
-    <div className='flex justify-between text-white px-3 py-1 md:px-20 md:py-2 shadow-md bg-tertiary sticky'>
+    <div className='flex justify-between text-white px-3 py-1 md:px-20 md:py-2 shadow-md bg-tertiary sticky top-0 left-0 z-50'>
       <div className='flex gap-5 my-auto'>
         <Image
           src={Logo}

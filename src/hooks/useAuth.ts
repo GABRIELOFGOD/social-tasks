@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/context/GlobalContext";
 import { IUser } from "@/model/userTypes";
 import { BASEURL } from "@/utils/constants";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ interface IAuthState {
 
 export const useAuth = () => {
   const { isConnected, address } = useAccount();
+  const { setGlobalLoading } = useGlobalContext();
   
   const [state, setState] = useState<IAuthState>({
     user: null,
@@ -21,6 +23,7 @@ export const useAuth = () => {
 
   const authUser = async () => {
     setState({ ...state, loading: true });
+    setGlobalLoading(true);
     try {
       const request = await fetch(`${BASEURL}/auth`, {
         method: "POST",
@@ -39,9 +42,11 @@ export const useAuth = () => {
         loading: false,
         error: null,
       });
+      setGlobalLoading(false);
       return response.user as IUser;
     } catch (error) {
       setState({ loading: false, error: (error as Error).message, user: null });
+      setGlobalLoading(false);
     }
   }
 

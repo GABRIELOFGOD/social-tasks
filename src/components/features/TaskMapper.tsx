@@ -26,17 +26,6 @@ const TaskMapper = () => {
     <div className='loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32'></div>
     <p className='text-gray-500 text-center font-bold text-xl mt-4'>Loading...</p>
   </div>
-
-  // const disConnectWallet = () => {
-  //   disconnect();
-  //   location.reload();
-  // }
-
-  // const startTelegramBot = () => {
-  //   window.open('https://t.me/ucc_checkbot', '_blank');
-  // }
-
-  // console.log("Logged in", hasLoggedIn);
   
   return (
     <div>

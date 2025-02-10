@@ -1,8 +1,8 @@
 "use client";
 
-import { sub } from '@/utils/constants'
+import { Sub } from '@/utils/constants'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ActionInput from '../common/inputs/ActionInput'
 import BigButton from '../common/buttons/BigButton';
 import { useGlobalContext } from '@/context/GlobalContext';
@@ -10,15 +10,23 @@ import { useGlobalContext } from '@/context/GlobalContext';
 const TaskHeader = () => {
   const [referralInput, setReferralInput] = useState<string>('');
   const { user } = useGlobalContext();
+
+  useEffect(() => {
+    if (user) {
+      const currentBasedUrl = window.location.href;
+      const url = new URL(currentBasedUrl);
+      setReferralInput(`${url.origin}/?ref=${user.id}`);
+    }
+  }, [user?.id]);
   
   return (
     <div className='h-[121.8px] bg-gradient-to-br to-[#D69D2308] from-[#BA963A4D] border w-full border-[#524141] rounded-lg flex'>
       <div className='h-full my-auto absolute'>
         <Image
-          src={sub}
+          src={Sub}
           layout="intrinsic"
           // objectFit="contain"
-          alt='sub'
+          alt='Sub'
           width={150}
           height={121.8}
         />
@@ -44,6 +52,7 @@ const TaskHeader = () => {
           value={referralInput}
           setValue={setReferralInput}
           placeholder='Enter Referral Code'
+          disabled={true}
           type='text'
           className='text-black h-10 md:w-[250px] w-[200px] font-semibold text-sm rounded-b-none rounded-t-md text-center'
         />
