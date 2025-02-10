@@ -28,7 +28,7 @@ export const GlobalProvider = ({ children }: {
       openConnectModal, setOpenConnectModal,
       globalLoading, setGlobalLoading
     }}>
-      {globalLoading ? <div className="h-full fixed top-0 left-0 w-full bg-black text-white">Loading user data</div> : children}
+      {children}
       {openConnectModal && <ConnectWalletModal closeModal={() => setOpenConnectModal(false)} />}
     </GlobalContext.Provider>
   );
