@@ -6,18 +6,25 @@ import { Logo } from '@/utils/constants'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 import { useAccount, useDisconnect } from 'wagmi';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 
 const Header = () => {
+  // const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const ref = searchParams.get('ref');
   const { isConnected } = useAccount();
-    const { disconnect } = useDisconnect();
+  const { disconnect } = useDisconnect();
   
-  const { user, error } = useAuth();
+  const { user, error, loading } = useAuth(ref as string);
   const { setUser, setOpenConnectModal } = useGlobalContext();
   if (error) console.log("Global error", error);
 
   useEffect(() => {
-    if (user) setUser(user);
-  }, [user]);
+    if (!loading) {
+      if (user) setUser(user);
+    }
+  }, [user, loading]);
   
   return (
     <div className='flex justify-between text-white px-3 py-1 md:px-20 md:py-2 shadow-md bg-tertiary sticky top-0 left-0 z-50'>
@@ -43,4 +50,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default dynamic(() => Promise.resolve(Header), { ssr: false });

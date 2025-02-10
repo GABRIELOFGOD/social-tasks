@@ -4,7 +4,6 @@ import { IUser } from "@/model/userTypes";
 import { BASEURL } from "@/utils/constants";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { useRouter } from "next/router";
 
 interface IAuthState {
   user: IUser | null;
@@ -12,10 +11,9 @@ interface IAuthState {
   error: string | null;
 }
 
-export const useAuth = () => {
+export const useAuth = (ref: string) => {
   const { isConnected, address } = useAccount();
   const { setGlobalLoading } = useGlobalContext();
-  const router = useRouter();
   
   const [state, setState] = useState<IAuthState>({
     user: null,
@@ -27,7 +25,6 @@ export const useAuth = () => {
     setState({ ...state, loading: true });
     setGlobalLoading(true);
     try {
-      const ref = router.query.ref;
       const request = await fetch(`${BASEURL}/auth${ref ? `?ref=${ref}` : ''}`, {
         method: "POST",
         headers: {
@@ -60,5 +57,4 @@ export const useAuth = () => {
   }, [isConnected]);
 
   return state;
-  
 }
