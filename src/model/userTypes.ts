@@ -11,6 +11,7 @@ export interface IUser {
   role: "admin" | "user";
   points: number;
   tasks?: ITask[];
+  lastLogin?: Date;
   referrer?: IUser;
   referrers?: IUser[];
   status: AccountStatus;

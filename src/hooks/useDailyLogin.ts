@@ -1,5 +1,6 @@
 "use client";
 
+import { IUser } from "@/model/userTypes";
 import { BASEURL } from "@/utils/constants";
 import { useEffect, useState } from "react"
 
@@ -9,7 +10,7 @@ export interface DailyLoginState {
   hasLoggedIn: boolean;
 }
 
-export const useDailyLogin = (wallet: string) => {
+export const useDailyLogin = (user: IUser | null) => {
   const [state, setState] = useState<DailyLoginState>({
     loading: false,
     error: null,
@@ -18,35 +19,31 @@ export const useDailyLogin = (wallet: string) => {
   
   useEffect(() => {
     const checkDailyLogin = async () => {
-      setState({ ...state, loading: true });
-      try {
-        const request = await fetch(`${BASEURL}/user/check`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ wallet }),
-        });
+      if (!user) return;
 
-        const response = await request.json();
-        if (!request.ok) {
-          setState({ ...state, loading: false, error: response.message });
-        }
+      if (!user.lastLogin) {
+        setState({ ...state, hasLoggedIn: false });
+        return;
+      }
 
-        if (response.status !== "success") {
-          setState({ ...state, loading: false, error: response.message });
-        }
-        
-        setState({ ...state, loading: false, hasLoggedIn: response.checkedLast });
-      } catch (error) {
-        setState({ ...state, loading: false, error: (error as Error).message });
+      const lastLoggedIn = new Date(user.lastLogin);
+      const now = new Date();
+      const diff = now.getTime() - lastLoggedIn.getTime();
+      const hoursDiff = diff / (1000 * 60 * 60);
+
+      if (hoursDiff < 24) {
+        setState({ ...state, hasLoggedIn: true });
+      } else {
+        setState({ ...state, hasLoggedIn: false });
       }
     }
 
     checkDailyLogin();
-  }, [wallet]);
+  }, [user]);
 
   const checkInNow = async (userId: number) => {
+    if (!user) return;
+
     setState({ ...state, loading: true });
     try {
       const request = await fetch(`${BASEURL}/check-in`, {
@@ -73,5 +70,4 @@ export const useDailyLogin = (wallet: string) => {
   }
 
   return {...state, checkInNow};
-
 }

@@ -16,7 +16,7 @@ const TaskMapper = () => {
   const { setOpenConnectModal, user } = useGlobalContext();
   
   const { data, error, loading } = useFetchTasks();
-  const { hasLoggedIn, loading: checkInLoading,  checkInNow } = useDailyLogin(user?.wallet || "");
+  const { hasLoggedIn, loading: checkInLoading, checkInNow } = useDailyLogin(user);
 
   if (error) return <div className='flex h-[300px] w-full flex-col justify-center items-center'>
     <p className='text-gray-500 text-center font-bold text-xl'>Error loading tasks</p>
@@ -77,7 +77,6 @@ const TaskMapper = () => {
               <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>Daily Login</p>
             </div>
             <p className='text-texter text-[19.36px] font-semibold col-span-1 pl-5 md:pl-20 my-auto'>100</p>
-            {/* <ConnectButton /> */}
             <button
               className={`px-2 py-1 text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex cursor-pointer justify-self-end capitalize ${checkInLoading ? 'cursor-not-allowed' : ''} ${hasLoggedIn ? 'bg-primary cuno' : 'bg-white'}`}
               disabled={checkInLoading || hasLoggedIn}
