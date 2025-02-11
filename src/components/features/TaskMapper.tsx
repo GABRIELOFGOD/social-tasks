@@ -54,7 +54,7 @@ const TaskMapper = () => {
               <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>Connect wallet</p>
             </div>
             <p className='text-texter text-[19.36px] font-semibold col-span-1 pl-5 md:pl-20 my-auto'>
-              {isConnected ? "" : '1000'}
+              
             </p>
             <button
               className='px-2 py-1 bg-white text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex cursor-pointer justify-self-end capitalize'

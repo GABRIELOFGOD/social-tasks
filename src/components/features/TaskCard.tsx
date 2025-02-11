@@ -1,7 +1,7 @@
 "use client";
 
 import { ITask, TaskType } from '@/model/tasksTypes'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ActionInput from '../common/inputs/ActionInput';
 import { BiCopy } from 'react-icons/bi';
 import { useParticipate } from '@/hooks/useParticipate';
@@ -11,17 +11,22 @@ import { FaMedium, FaSquareXTwitter } from 'react-icons/fa6';
 import { BsDiscord } from 'react-icons/bs';
 import { LuInstagram } from 'react-icons/lu';
 import { AiFillTikTok } from 'react-icons/ai';
+import { Logo } from '@/utils/constants';
+import Image from 'next/image';
+import { toast } from 'sonner';
 
 const TaskCard = ({task}: {task: ITask}) => {  
   const [openTaskExtention, setOpenTaskExtention] = useState<boolean>(false);
   const [taskInput, setTaskInput] = useState<string>('');
+  const [customCopy, setCustomCopy] = useState<string>('');
+
   const { user } = useGlobalContext();
   const { participate, state } = useParticipate();
 
   const openTask = () => {
-    setOpenTaskExtention(!openTaskExtention);
+    // setOpenTaskExtention(!openTaskExtention);
     // TODO: Open task in new tab
-    // window.open(task.url, '_blank');
+    window.open(task.url, '_blank');
   }
 
   const handleVerify = async () => {
@@ -31,6 +36,24 @@ const TaskCard = ({task}: {task: ITask}) => {
     };
     await participate(task.id, taskInput, user?.wallet || '');
   }
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(customCopy);
+    toast.success('Copied to clipboard');
+  }
+
+  useEffect(() => {
+    if (user) {
+      if (task.type === TaskType.TELEGRAM) {
+        setCustomCopy(`https://t.me/${task.username}`);
+      }
+      if (task.type === TaskType.REFERRAL){
+        const currentBasedUrl = window.location.href;
+        const url = new URL(currentBasedUrl);
+        setCustomCopy(`${url.origin}/?ref=${user.id}`);
+      }
+    }
+  }, [user, task]);
 
   const participated = task.participants.some(participant => participant.id === user?.id);
   
@@ -73,10 +96,20 @@ const TaskCard = ({task}: {task: ITask}) => {
             <div><AiFillTikTok size={25} className='my-auto' color='#C18B18' /></div>
             <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
           </div>}
+          {task.type === TaskType.REFERRAL && <div className="flex gap-3 my-auto">
+            <Image
+              src={Logo}
+              alt={"logo"}
+              height={30}
+              width={30}
+              className='my-auto'
+            />
+            <p className='text-texter text-[19.36px] font-semibold col-span-1 my-auto'>{task.description}</p>
+          </div>}
           {openTaskExtention && !participated && <div className='flex gap-2 pt-3'>
-            <span className='font-semibold my-auto'>{task.username}</span>
+            <span className='font-semibold my-auto'>{task.type === TaskType.REFERRAL ? "Copy link": task.username}</span>
             <button
-              onAbort={() => navigator.clipboard.writeText('@uccchain')}
+              onClick={copyToClipboard}
             >
               <BiCopy />
             </button>
@@ -87,13 +120,13 @@ const TaskCard = ({task}: {task: ITask}) => {
         <button
           disabled={participated}
           className={`px-2 py-1 text-black font-semibold rounded-full h-fit w-[100px] justify-center my-auto md:text-[16px] text-xm flex justify-self-end capitalize ${participated ? 'cursor-not-allowed bg-primary' : 'cursor-pointer bg-white'}`}
-          onClick={openTask}
+          onClick={task.type === TaskType.REFERRAL ? copyToClipboard : openTask}
         >
           {participated ? (task.participants.find(participant => participant.user && participant.user.wallet === user?.wallet)?.completed == "pending" ? "Pending" : "Completed") : task.action}
         </button>
         
       </div>
-      {openTaskExtention && !participated && (
+      {openTaskExtention && !participated && task.type !== TaskType.REFERRAL && (
         <div className="flex flex-col gap-5">
           <div
             className='w-full flex justify-between gap-3 md:gap-5'

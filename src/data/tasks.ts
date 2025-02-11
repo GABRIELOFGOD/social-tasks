@@ -120,6 +120,10 @@ export const taskTypes = [
   {
     name: TaskType.MEDIUM,
     actions: ["Follow", "Clap", "Comment"],
+  },
+  {
+    name: TaskType.REFERRAL,
+    actions: ["refer"]
   }
 ];
 

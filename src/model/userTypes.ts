@@ -15,4 +15,5 @@ export interface IUser {
   referrer?: IUser;
   referrers?: IUser[];
   status: AccountStatus;
+  hasStartedBot: boolean;
 }

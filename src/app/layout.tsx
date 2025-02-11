@@ -41,7 +41,10 @@ export default async function RootLayout({
         <Providers initialState={initialState}>
           <GlobalProvider>
             <Header />
-            <div>{children}</div>
+            <div>
+              {children}
+              <Toaster />
+            </div>
             <SortedFooter />
           </GlobalProvider>
         </Providers>

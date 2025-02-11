@@ -26,6 +26,7 @@ export interface ITask {
   mandatory?: boolean;
   username?: string;
   participants: IParticipant[];
+  primaryTask: boolean;
 }
 
 export enum TaskType {
@@ -37,4 +38,5 @@ export enum TaskType {
   TIKTOK = "tiktok",
   TELEGRAM = "telegram",
   MEDIUM = "medium",
+  REFERRAL = "referral",
 }

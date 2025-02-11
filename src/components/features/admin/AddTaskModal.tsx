@@ -106,7 +106,7 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
                 className='h-12 bg-black'
               />
             </div>
-            <div className='flex flex-col gap-3 w-full'>
+            {taskType !== TaskType.REFERRAL && <div className='flex flex-col gap-3 w-full'>
               <p className='font-semibold text-lg capitalize'>{taskType} username:</p>
               <ActionInput
                 placeholder={`${taskType} username`}
@@ -115,10 +115,10 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
                 type='text'
                 className='h-12 bg-black'
               />
-            </div>
+            </div>}
           </div>
           
-          <div className='flex flex-col gap-3 w-full'>
+          {taskType !== TaskType.REFERRAL && <div className='flex flex-col gap-3 w-full'>
             <p className='font-semibold text-lg'>Task Url:</p>
             <ActionInput
               placeholder={`Url to ${taskType} task`}
@@ -127,7 +127,7 @@ const AddTaskModal = ({closeModal}: {closeModal: () => void}) => {
               type='text'
               className='h-12 bg-black'
             />
-          </div>
+          </div>}
 
           <div className="flex gap-3 w-full justify-center">
             <input
