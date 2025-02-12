@@ -8,6 +8,7 @@ import { Providers } from "@/context/Provider";
 import { getConfig } from "@/utils/wagmi";
 import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
