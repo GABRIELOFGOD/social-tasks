@@ -18,7 +18,7 @@ import { toast } from 'sonner';
 const TaskCard = ({task}: {task: ITask}) => {  
   const [openTaskExtention, setOpenTaskExtention] = useState<boolean>(false);
   const [taskInput, setTaskInput] = useState<string>('');
-  const [customCopy, setCustomCopy] = useState<string>('');
+  const [customCopy, setCustomCopy] = useState<string>(task.username || "");
 
   const { user } = useGlobalContext();
   const { participate, state } = useParticipate();
@@ -31,7 +31,7 @@ const TaskCard = ({task}: {task: ITask}) => {
 
   const handleVerify = async () => {
     if (!taskInput) {
-      state.error = 'Please enter your username';
+      toast.error('Please enter your username');
       return;
     };
     await participate(task.id, taskInput, user?.wallet || '');
@@ -54,6 +54,8 @@ const TaskCard = ({task}: {task: ITask}) => {
       }
     }
   }, [user, task]);
+
+  if (state.error) toast.error(state.error);
 
   const participated = task.participants.some(participant => participant.id === user?.id);
   
@@ -113,7 +115,7 @@ const TaskCard = ({task}: {task: ITask}) => {
             >
               <BiCopy />
             </button>
-            {state.error && <p className='text-red-500 text-xs font-semibold col-span-2 my-auto'>{state.error}</p>}
+            {/* {state.error && <p className='text-red-500 text-xs font-semibold col-span-2 my-auto'>{state.error}</p>} */}
           </div>}
         </div>
         <p className='text-texter text-[19.36px] font-semibold col-span-1 pl-5 md:pl-20 my-auto'>{task.points}</p>
