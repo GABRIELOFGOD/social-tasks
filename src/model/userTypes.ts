@@ -16,4 +16,5 @@ export interface IUser {
   referrers?: IUser[];
   status: AccountStatus;
   hasStartedBot: boolean;
+  refId: number;
 }

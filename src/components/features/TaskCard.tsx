@@ -50,7 +50,7 @@ const TaskCard = ({task}: {task: ITask}) => {
       if (task.type === TaskType.REFERRAL){
         const currentBasedUrl = window.location.href;
         const url = new URL(currentBasedUrl);
-        setCustomCopy(`${url.origin}/?ref=${user.id}`);
+        setCustomCopy(`${url.origin}/?ref=${user.ref}`);
       }
     }
   }, [user, task]);

@@ -16,9 +16,9 @@ const TaskHeader = () => {
     if (user) {
       const currentBasedUrl = window.location.href;
       const url = new URL(currentBasedUrl);
-      setReferralInput(`${url.origin}/?ref=${user.id}`);
+      setReferralInput(`${url.origin}/?ref=${user.refId}`);
     }
-  }, [user?.id]);
+  }, [user?.refId]);
   
   return (
     <div className='h-[121.8px] bg-gradient-to-br to-[#D69D2308] from-[#BA963A4D] border w-full border-[#524141] rounded-lg flex'>
