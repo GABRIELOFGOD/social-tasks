@@ -44,9 +44,10 @@ const TaskCard = ({task}: {task: ITask}) => {
 
   useEffect(() => {
     if (user) {
-      if (task.type === TaskType.TELEGRAM) {
-        setCustomCopy(`https://t.me/${task.username}`);
-      }
+      console.log("task", task);
+      // if (task.type === TaskType.TELEGRAM) {
+      //   setCustomCopy(`https://t.me/${task.username}`);
+      // }
       if (task.type === TaskType.REFERRAL){
         const currentBasedUrl = window.location.href;
         const url = new URL(currentBasedUrl);
@@ -57,10 +58,14 @@ const TaskCard = ({task}: {task: ITask}) => {
 
   if (state.error) toast.error(state.error);
 
-  const participated = task.participants.some(participant => participant.id === user?.id);
+  if (state.message) toast.success(state.message);
+
+  // const participated = task.participants.some(participant => participant.id === user?.id);
+  const isPart = task.participants.find(participant => participant.user.id === user?.id);
+  const participated = isPart !== null && isPart !== undefined ? true : false;
   
   return (
-    <div className="border border-primary border-opacity-10 w-full bg-transparent rounded-lg py-3 px-6 flex flex-col gap-5">
+    <div className="border border-primary border-opacity-10 w-full bg-transparent rounded-lg py-3 px-6 flex flex-col gap-5 duration-200">
       <div
         className='w-full grid grid-cols-3 gap-5 cursor-pointer'
         onClick={() => setOpenTaskExtention(!openTaskExtention)}
@@ -129,7 +134,7 @@ const TaskCard = ({task}: {task: ITask}) => {
         
       </div>
       {openTaskExtention && !participated && task.type !== TaskType.REFERRAL && (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 duration-200">
           <div
             className='w-full flex justify-between gap-3 md:gap-5'
           >
@@ -144,11 +149,11 @@ const TaskCard = ({task}: {task: ITask}) => {
               // className='text-black text-[19.36px] font-semibold col-span-2'
             />
             <button
-              className={`w-fit py-1 px-4 bg-white text-black font-semibold rounded-full h-fit my-auto  text-[16px] ${state.loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              className={`w-fit py-1 px-4 text-black font-semibold rounded-full h-fit my-auto  text-[16px] ${state.loading || state.taskSuccess ? 'cursor-not-allowed bg-primary' : 'cursor-pointer bg-white'}`}
               onClick={handleVerify}
-              disabled={state.loading}
+              disabled={state.loading || state.taskSuccess}
             >
-              {state.loading ? 'Verying...' : 'Verify'}
+              {state.loading ? 'Verying...' : state.taskSuccess ? "Submitted" : 'Verify'}
             </button>
           </div>
         </div>

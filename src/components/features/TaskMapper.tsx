@@ -36,7 +36,7 @@ const TaskMapper = () => {
   const startTelegramBot = () => {
     if (user) {
       start(user.id);
-      window.open("https://t.me/@ucc_chainbot", '_blank');
+      window.open("https://t.me/ucc_chainbot", '_blank');
     }
   }
   

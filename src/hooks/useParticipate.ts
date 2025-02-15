@@ -7,6 +7,7 @@ interface IUseParticipate {
   message: string | null;
   loading: boolean;
   error: string | null;
+  taskSuccess: boolean;
 }
 
 export const useParticipate = () => {
@@ -14,12 +15,13 @@ export const useParticipate = () => {
     message: null,
     loading: false,
     error: null,
+    taskSuccess: false,
   });
 
   const participate = async (taskId: number, username: string, wallet: string) => {
     
     try {
-      setState({ loading: true, error: null, message: null });
+      setState({ loading: true, error: null, message: null, taskSuccess: false });
       const request = await fetch(`${BASEURL}/tasks/participate`, {
         method: 'POST',
         headers: {
@@ -38,10 +40,9 @@ export const useParticipate = () => {
         throw new Error(response.message);
       }
       if (response.status !== 'success') throw new Error(response.message);
-      setState({ loading: false, error: null, message: 'Task added successfully' });
-      location.reload();
+      setState({ ...state, error: null, message: 'Task added successfully', taskSuccess: true });
     } catch (error) {
-      setState({ loading: false, error: (error as Error).message, message: null });
+      setState({ loading: false, error: (error as Error).message, message: null, taskSuccess: false });
     }
   };
 

@@ -7,6 +7,7 @@ import ActionInput from '../common/inputs/ActionInput'
 import BigButton from '../common/buttons/BigButton';
 import { useGlobalContext } from '@/context/GlobalContext';
 import { formatMoney } from '@/services/moneyEditor';
+import { toast } from 'sonner';
 
 const TaskHeader = () => {
   const [referralInput, setReferralInput] = useState<string>('');
@@ -59,7 +60,10 @@ const TaskHeader = () => {
         />
         <BigButton
           text='Copy'
-          onClick={() => navigator.clipboard.writeText(referralInput)}
+          onClick={() => {
+            navigator.clipboard.writeText(referralInput);
+            toast.success('Referral link copied to clipboard');
+          }}
           className='bg-tertiary h-10 rounded-b-md rounded-t-none'
         />
       </div>
